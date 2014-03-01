@@ -41,8 +41,8 @@ class ScriptFormatter
   CHAPTER_SPLIT_STR = "\r\n###"  
   # コメントの行の先頭文字
   COMMENT_STR = "#"
-  # チャプタータイトル表記の正規表現パターン　【共通ルート シーン01 夢〜自宅朝】
-  CHAPTER_TITLE_PATTERN = /[【『].+?ルート.+?シーン.+?[】』]/
+  # チャプタータイトル表記の正規表現パターン　【C01 共通ルート シーン01 夢〜自宅朝】
+  CHAPTER_TITLE_PATTERN = /[【『]\w+?.+?[】』]/
 
   
   def initialize
@@ -83,7 +83,7 @@ class ScriptFormatter
         #p line
       end
       
-      output_lines_as_script(lines)
+      #output_lines_as_script(lines)
       chapter[:lines] = lines
     end
 
@@ -99,13 +99,10 @@ class ScriptFormatter
 
     # メソッド化
     # チャプターのタイトルからファイル名の接中辞をつける    
-    str  = c_title[/([^【『]+)ルート/]
-    root = str[0, 1]
-    num  = c_title[/シーン\d+/]
-    num_s = num[3, 2]
-    file_str = root + num_s
-      
-
+    str  = c_title[/[\w]+/]
+    file_str = str
+#file_str = "ssss"
+    
     c_voice_counts = {}
     # キャラごとのセリフを取得する
     lines.each_with_index do |line, i|
@@ -144,7 +141,8 @@ class ScriptFormatter
     # チャプターのタイトル、テキストを配列に入れる
     chapters = []
     chapter_texts.each do |c_text|  
-      c_title = c_text[CHAPTER_TITLE_PATTERN]
+p      c_title = c_text[CHAPTER_TITLE_PATTERN]
+
       chapter = { :title => c_title, :text => c_text }
       # セリフ、タイトルが含まれない箇所はスキップ
       if c_text.count("「") == 0 && c_title == nil

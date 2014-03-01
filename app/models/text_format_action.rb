@@ -69,6 +69,74 @@ class TextFormatAction
   def output_table(chapters)
     t_html = ""
     chapters.each do |chapter|
+      # チャプタータイトル出力
+      t_html += "<h1 class='c_title'>" + chapter[:title] + "</h1>"
+      
+      lines = chapter[:lines]
+      
+      lines.each_with_index do |line, i|
+        # コメントは出力しない
+        if line[:kind] == "コメント"
+          next
+        # ト書き シチュエーション
+        elsif line[:kind] == "ト書き" && line[:text][/【背景/]
+          situation = line[:text][/【背景.([^】]+)】/, 1]
+          t_html += "<h4 class='situation'>場所：" + situation + "</h4>\n"
+          location = situation[/([^】\s　]+)/, 1]
+          if location != nil
+            t_html += "<div class='img_area'><img src = '/images/bg/" + location + ".jpg' class = 'location' /></div>"
+          end       
+          next
+        end        
+        
+        if line[:kind] == "セリフ"
+          if i == 0 
+            t_html += "<table class='voice'>\n"
+          elsif lines[i - 1][:kind] != "セリフ"
+            t_html += "<table class='voice'>\n"
+          end
+          
+          if line[:chara_name] == "日向"
+            t_html += "<tr class = 'voice bold'>"        
+          else
+            t_html += "<tr>"
+          end
+          
+          t_html += "<td class = 'chara_name'>" + line[:chara_name] + "</td>"
+          t_html += "<td class = 'text'>" + line[:text] + "</td>"    
+          t_html += "<td class = 'file_name'>" + line[:file_name] + "</td>"
+          t_html += "</tr>\n" 
+          if i == lines.length - 1
+            t_html += "</table>\n"
+          elsif lines[i + 1][:kind] != "セリフ"
+            t_html += "</table>"
+          end
+
+        elsif line[:kind] == "地の文"
+          if i == 0 
+            t_html += "<div class = 'text'>\n"
+          elsif lines[i - 1][:kind] != "地の文"
+            t_html += "<div class = 'text'>\n"
+          end
+          t_html += "<p>" + line[:text] + "</p>"
+          if i == lines.length - 1
+            t_html += "</div>\n"
+          elsif lines[i + 1][:kind] != "地の文"
+            t_html += "</div>"
+          end
+        end
+      end
+    end
+        
+    return t_html
+  end
+  
+  def output_table_org(chapters)
+    t_html = ""
+    chapters.each do |chapter|
+      # チャプタータイトル出力
+      
+      
       lines = chapter[:lines]
       lines.each_with_index do |line, i|
         if line[:kind] == "コメント"
