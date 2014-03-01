@@ -8,10 +8,11 @@
   <%= csrf_meta_tags %>
   <style type="text/css">
   	body {
-	font-size: 90%;
-	line-height: 150%;
-	/*font-size: 14px;*/
-}
+			font-size: 90%;
+			line-height: 150%;
+			color: #000000;
+			/*font-size: 14px;*/
+		}
 
 div#content {
   width: 95%;
@@ -19,21 +20,12 @@ div#content {
   padding-top: 80px;
 }
 
-table#script_table {
+table.script_table {
+	width: 860px;/* 760px;*/
   margin: 0 auto;
   border-spacing: 0px;
-}
-
-tr.blank {
-	height: 40px;
-}
-
-tr.voice td {
-	padding: 4px 10px;
-}
-
-tr {
-	margin: 0;
+	border-left: solid 1px #666666;
+	table-layout: fixed;
 }
 
 tr.bold {
@@ -42,27 +34,61 @@ tr.bold {
 }
 
 td {
+		height: 40px;
 	margin: 0px;
-	padding: 0 20px;
-	border-right: solid 1px #999999;
+	padding: 0 10px;
+	line-height: 40px;
+	border-right: solid 1px #666666;
+}
+
+tr.blank {
+	height: 40px;
+}
+
+tr.text td {
+	color: #555555;
+	padding-left: 60px;
+		padding-right: 40px;
 }
 
 td.chara_name {
 	width: 80px;
+	padding-right: 20px;
 	text-align: right;
-	padding: 0 20px;
 	vertical-align: top;
+	border-right: solid 1px #666666;
 }
 
 td.text {
-	width: 600px;
+	width: 700px ; /*600px;*/
+	vertical-align: top;
 }
 
+tr.voice td.text {
+
+}
+
+
 td.file_name {
-	width: 120px;
+	width: 90px;
+	padding-left: 10px;
+	padding-right: 0;
+	text-align: left;
+	
 	color: #666666;
 	font-size: 75%;
+	vertical-align: top;
 }
+  	
+  	
+div.place {
+	width: 830px;
+	height: 40px;
+	margin: 0px auto;
+	padding: 10px 60px;
+	line-height: 40px;
+	border: solid 1px #666666;
+}  	
   	
   </style>
   

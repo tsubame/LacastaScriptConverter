@@ -32,9 +32,10 @@ class ScriptFormatter
   VOICE_NUM_SIM_END   = "]"
   
   # セリフか地の文かト書きかの判定用
-  VOICE  = "セリフ"
-  TEXT   = "地の文"
-  TOGAKI = "ト書き"
+  VOICE   = "セリフ"
+  TEXT    = "地の文"
+  TOGAKI  = "ト書き"
+  COMMENT = "コメント"
   
   # チャプター分割器号
   CHAPTER_SPLIT_STR = "\r\n###"  
@@ -74,7 +75,7 @@ class ScriptFormatter
       # 行を分割
       lines = split_lines(lines)
       # 空白行は削除
-      lines = cut_blank_line(lines)
+      lines = cut_no_use_line(lines)
       # セリフにファイル名をつける
       lines = set_file_name_to_voice_line(lines, chapter[:title])
         
@@ -207,8 +208,8 @@ class ScriptFormatter
        return TOGAKI
      end
      # 注釈部分
-     if line_str[0, 3] == COMMENT_STR
-       return TOGAKI
+     if line_str[0, COMMENT_STR.length] == COMMENT_STR
+       return COMMENT
      end
      
      # 同じ文字が続けばト書き（区切り文字）
@@ -481,13 +482,14 @@ class ScriptFormatter
     return texts
   end
   
-  # 配列linesを受け取って、空白行を除いて返す。
+  # 配列linesを受け取って、空白行、不要な行を除いて返す。
+  # コメントの行もスキップ。
   #
   #   lines[i][:text] が空白だけ、もしくは改行と空白だけだった場合にカット。
   #
   # @params [Array]  lines  
   # @return [Array]  res_lines  
-  def cut_blank_line(lines)
+  def cut_no_use_line(lines)
     res_lines = []      
     lines.each do |line|
       # 空白行はスキップ
@@ -495,7 +497,18 @@ class ScriptFormatter
         next
       elsif line[:text][/^[　\s]+$/] != nil
         next
-      end      
+      end
+      
+
+      
+# コメントの行、【場面暗転】の行もスキップ
+if line[:text][/場面暗転/] != nil
+  next
+end
+if line[:kind] == "コメント"
+  next
+end     
+      
       res_lines.push(line)
     end
     
@@ -617,7 +630,7 @@ class ScriptFormatter
       elsif line[:kind] == TEXT
         puts "　　" + line[:text]
       # ト書き
-      else
+      else        
         puts line[:text]
       end
       

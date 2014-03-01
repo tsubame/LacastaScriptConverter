@@ -23,7 +23,7 @@ class TextFormatAction
   TOGAKI = "ト書き"
   
   # 注釈部分の先頭文字列
-  COMMENT_STR = "———"
+  COMMENT_STR = "#"
   
   # セリフ横の役名を何文字で揃えるか　3の場合: 翼「こんにちは」→ 翼　　「こんにちは」
   ACTOR_CHAR_WIDTH = 3
@@ -36,7 +36,7 @@ class TextFormatAction
   MAX_LENGTH_OF_LINE = 55
   
   # 地の文を分割する際、文字数にかかわらず1行1文にする
-  SPLIT_TEXT_IGNORE_LENGTH = true
+  SPLIT_TEXT_IGNORE_LENGTH = false #true
   
   
   def initialize(file)
@@ -71,6 +71,15 @@ class TextFormatAction
     chapters.each do |chapter|
       lines = chapter[:lines]
       lines.each_with_index do |line, i|
+        if line[:kind] == "コメント"
+          next
+        elsif line[:kind] == "ト書き" && line[:text][/【背景/]
+          place = line[:text][/【背景.([^】]+)】/, 1]
+          t_html += "</table>\n\n<div class='place'>" + place + "</div>\n\n"
+          t_html += "<table class='script_table'>"
+          t_html +=   "<tr class = 'blank'><td class = 'chara_name'>　</td><td class = 'text'></td><td class = 'file_name'></td></tr>"
+          next
+        end        
         
         if line[:chara_name]
           if line[:chara_name] == "日向"
@@ -78,7 +87,9 @@ class TextFormatAction
           else
             t_html += "<tr class = 'voice'>"
           end
-        else
+        elsif line[:kind] == "地の文"
+          t_html += "<tr class = 'text'>"
+        else    
           t_html += "<tr>"        
         end
         
@@ -87,8 +98,15 @@ class TextFormatAction
         else
           t_html += "<td class = 'chara_name'></td>"
         end
+        
+        if line[:kind] == "ト書き" && line[:text][/【背景/]
+          place = line[:text][/【(背景.[^】]+)】/, 1]
+          t_html += "<td class = 'text'><div class='place'>" + place + "</div></td>"
+        else
+          t_html += "<td class = 'text'>" + line[:text] + "</td>"          
+        end
+        
 
-        t_html += "<td class = 'text'>" + line[:text] + "</td>"
         if line[:file_name]
           t_html += "<td class = 'file_name'>" + line[:file_name] + "</td>"
         else
@@ -99,7 +117,7 @@ class TextFormatAction
         if i == lines.length - 1
           break
         elsif lines[i + 1][:kind] != line[:kind]
-        t_html += "<tr class = 'blank'><td class = 'chara_name'>　</td><td class = 'text'></td><td class = 'file_name'></td></tr>"
+          t_html += "<tr class = 'blank'><td class = 'chara_name'>　</td><td class = 'text'></td><td class = 'file_name'></td></tr>"
         end
       end
     end
