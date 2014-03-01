@@ -1,0 +1,9 @@
+<h1>Text#index</h1>
+<p>Find me in app/views/text/index.html.erb</p>
+
+<%= form_tag({ :action => 'format' }, :multipart => true, :method => :post ) do %>
+
+	<%= file_field_tag :file, :size => 50 %>
+	<%= submit_tag '送信' %>
+<% end %>
+

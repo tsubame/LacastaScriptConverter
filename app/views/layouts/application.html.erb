@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LacastaTextConverter</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <style type="text/css">
+  	body {
+	font-size: 90%;
+	line-height: 150%;
+	/*font-size: 14px;*/
+}
+
+div#content {
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 80px;
+}
+
+table#script_table {
+  margin: 0 auto;
+  border-spacing: 0px;
+}
+
+tr.blank {
+	height: 40px;
+}
+
+tr.voice td {
+	padding: 4px 10px;
+}
+
+tr {
+	margin: 0;
+}
+
+tr.bold {
+	font-weight: bold;
+	color: #4a86e8;
+}
+
+td {
+	margin: 0px;
+	padding: 0 20px;
+	border-right: solid 1px #999999;
+}
+
+td.chara_name {
+	width: 80px;
+	text-align: right;
+	padding: 0 20px;
+	vertical-align: top;
+}
+
+td.text {
+	width: 600px;
+}
+
+td.file_name {
+	width: 120px;
+	color: #666666;
+	font-size: 75%;
+}
+  	
+  </style>
+  
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
