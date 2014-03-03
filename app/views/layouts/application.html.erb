@@ -14,24 +14,44 @@ body {
 }
 
 div#content {
-  width: 800px;
+  width: 90%;
+  margin: 0px auto;
+}
+
+div.chapter {
+  width: 830px;
   margin: 40px auto;
-  padding: 80px 40px;
-  background: #FFFFFF;
+  padding: 40px 40px 80px;
+	background-image: url(/images/paper.png);
 }
 
 h1.c_title {
-	margin: 100px 0 -40px;
-	padding-left: 10px;
+	margin: 40px 0 -100px;
+	padding-left: 30px;
 	font-size: 140%;
 	font-weight: normal;
+	page-break-before: always;
+}
+
+div.explain {
+  width: 700px;
+  margin: 40px auto;
+  color: #333333;
+  font-size: 90%;
+  text-align: right;
+}
+
+span.blue {
+	color: #4a86e8;
 }
 
 h4.situation {
-	margin: 180px 20px 20px;
-	padding: 8px 50px;
+	margin: 180px 40px 20px;
+	padding: 20px 20px;
 	font-weight: normal;
-	border: solid 1px #999999;
+	border-bottom: solid 1px #999999;
+	border-top: solid 1px #999999;
+		border: solid 1px #999999;
 }
 
 table.voice {
@@ -66,22 +86,23 @@ table.voice td.text {
 table.voice td.file_name {
 	width: 100px;
 	padding-left: 10px;
-	font-size: 75%;
+	font-size: 70%;
 	font-weight: normal;
-	color: #666666;
+	color: #777777;
 	vertical-align: top;
 }
 
 div.text {
-	width: 640px;
+	width: 600px;
 	margin: 0 auto;
 	padding: 0px 40px;
+	font-family: serif;
 	color: #666666;
-	border: solid 1px #CCCCCC;
+	border: dotted 0px #CCCCCC;
 }
 
 div.img_area {
-	margin-right: 20px;
+	margin-right: 40px;
 	margin-bottom: 30px;
 	text-align: right;
 }

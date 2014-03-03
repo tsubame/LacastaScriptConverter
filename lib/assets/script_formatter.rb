@@ -98,9 +98,14 @@ class ScriptFormatter
   def set_file_name_to_voice_line(lines, c_title)
 
     # メソッド化
-    # チャプターのタイトルからファイル名の接中辞をつける    
-    str  = c_title[/[\w]+/]
-    file_str = str
+    # チャプターのタイトルからファイル名の接中辞をつける
+    if c_title != nil
+      str  = c_title[/[\w]+/]
+      file_str = str
+    else
+      file_str = ""
+    end
+
 #file_str = "ssss"
     
     c_voice_counts = {}

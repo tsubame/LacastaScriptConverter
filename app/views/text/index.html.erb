@@ -7,3 +7,8 @@
 	<%= submit_tag '送信' %>
 <% end %>
 
+<%= form_tag({ :action => 'create_game_script' }, :multipart => true, :method => :post ) do %>
+
+	<%= file_field_tag :file, :size => 50 %>
+	<%= submit_tag '送信' %>
+<% end %>

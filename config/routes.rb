@@ -3,7 +3,9 @@ LacastaTextConverter::Application.routes.draw do
   get "text/index"
 
   post "text/format"
-
+  get "text/test"
+  
+  post "text/create_game_script"
   
   #resources :informations, only: [:index]
   #get 'informations/:user_id/information_sheet', :to => 'informations#pdf', :as => :informations_pdf

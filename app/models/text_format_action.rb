@@ -44,6 +44,14 @@ class TextFormatAction
     @original_text = file.read.toutf8
   end
   
+  # 処理実行 
+  #
+  # @params [File] file フォームからアップロードされたファイル
+  def exec ()
+
+  end
+
+  
   # 台本を作成
   # 
   # 1. 長い行、セリフを2つに分ける
@@ -56,19 +64,58 @@ class TextFormatAction
     t_html = output_table(chapters)
   end
   
-  # 処理実行 
   #
-  # @params [File] file フォームからアップロードされたファイル
-  def exec ()
-
+  #
+  #
+  def create_game_script
+    formatter = ScriptFormatter.new
+    formatter.split_text_ignore_length = SPLIT_TEXT_IGNORE_LENGTH
+    chapters = formatter.exec(@original_text)
+    
+    chapters.each do |chapter|
+      script = create_chapter_game_script(chapter)
+      p script
+    end
   end
-
+  
+  #
+  #
+  #
+  def create_chapter_game_script(chapter)
+    lines = chapter[:lines]
+    script = ""
+    name_head = "【 "
+    name_tail = " 】<BR>\n"
+    
+    lines.each_with_index do |line, i|
+      if line[:kind] == "地の文"
+        script += line[:text]
+        script += "<PG>\n"
+        #1. 先頭の空白を削除 \n□ → \n
+        
+      elsif line[:kind] == "セリフ"
+        # 2. 名前欄を改行 「　→　<br>\n「
+        script += name_head + line[:chara_name] + name_tail
+        script += line[:text]
+        script += "<PG>\n"
+        # 3. 改行を改ページに。 \n　→　<pg>\n
+      elsif line[:kind] == "ト書き"
+          
+      end
+      # 4. 2行以上の改ページを1行に。 <pg>\n<pg> → <pg>\n
+    end
+    
+    return script
+  end
+  
   # テーブルタグ出力
   #
   #
   def output_table(chapters)
     t_html = ""
     chapters.each do |chapter|
+      t_html += "<div class = 'chapter'>"
+      t_html += "<div class = 'explain'>（<span class = 'blue'>青字</span>のセリフが担当箇所です）</div>"  
       # チャプタータイトル出力
       t_html += "<h1 class='c_title'>" + chapter[:title] + "</h1>"
       
@@ -126,6 +173,8 @@ class TextFormatAction
           end
         end
       end
+      
+      t_html += "</div>"
     end
         
     return t_html
